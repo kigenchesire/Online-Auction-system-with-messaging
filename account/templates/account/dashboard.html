@@ -1,0 +1,56 @@
+{% extends 'account/base_dash.html' %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block body %}
+<div class="container" xmlns="http://www.w3.org/1999/html">
+    {% load i18n %}
+        <div class="col-md-7">
+            <h1>{% trans 'Dashboard' %}</h1>
+            <hr>
+            <p class="para">{% trans 'Welcome to your dashboard. You can' %} <a href="{% url 'account:edit' %}">{% trans 'edit your account' %}</a>
+             {% trans 'or' %} <a href="{% url 'password_change' %}">{% trans 'change your password' %}.</a>
+            </p>
+            <hr>
+            <p class="para"> {% trans 'To pay for your won bids, please ensure that you have first activated your account'%}.
+            </p>
+            <hr>
+        </div>
+        <div class="col-md-offset-7 panel panel-default" id="account">
+            <div class="panel-header">
+                <h2 style="text-align:center">{% trans 'My Account' %}</h2>
+                <hr>
+            </div>
+            <div class="panel-body">
+                {% for balance in balances %}
+                <h4>{% trans 'Account Balance'%}:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:green;text-align:right">Ksh {{balance.amount}}</span></h4>
+                <a style="margin-top:10px;" href="{% url 'payment:credit_balance' %}" class="btn btn-primary col-md-12" role="button">{% trans 'Top Up'%}</a>
+                {% empty %}
+                 <p style="color:#095025; font-family: Palatino Linotype, Book Antiqua, Palatino, serif;font-style:italic; padding-left:40px">{% trans 'Please activate your account by topping up any amount' %}</p>
+                <a style="margin-top:10px;" href="{% url 'payment:activate_account' %}" class="btn btn-primary col-md-12" role="button">{% trans 'Activate Account'%}</a>
+                {% endfor %}
+            </div>
+        </div>
+    <hr>
+    <div class="container">
+         <div class="col-md-7">
+             <h2>Your Active Won Bids</h2>
+             {% for bid in bidder %}
+             <p style="font-family:Palatino Linotype, Book Antiqua, Palatino, serif;">Item won: {{bid.bidItem}}</p>
+             {%if bid.bidItem.paid %}
+                <p style="font-size: 20px;">Payment: <span style="color:green;">{% trans 'Paid' %} </span><span style="color:green" class="glyphicon glyphicon-ok"></span></p>
+                <p class="para">{% trans 'Your delivery will be dispatched in 3 working days to the address you gave.You will be notified once it is delivered' %}</p>
+            {% else %}
+                <p style="font-size: 20px;">Payment: <span style="color:red">{% trans 'Pending Payment' %}</span></p>
+                <a href="{% url 'payment:confirm_bid' bid.id %}" class="btn btn-success" role="button">
+                {% trans 'Pay for this bid' %}
+                </a>
+             <p class="para">{% trans 'Your total amount to pay for this bid is'%}:<span style="color: #3a69c9;font-size:18px;"> Ksh {{bid.amount}}</span></p>
+            {% endif %}
+             {% empty%}
+              <p style="color:#095025; font-family: Palatino Linotype, Book Antiqua, Palatino, serif;font-style:italic; padding-left:40px">{% trans 'You do not have any active won bids' %}</p>
+             {% endfor %}
+         </div>
+    </div>
+</div>
+{% endblock %}

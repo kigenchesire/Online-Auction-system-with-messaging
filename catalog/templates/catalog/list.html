@@ -1,0 +1,133 @@
+{% extends 'catalog/base_list.html' %}
+
+{% block title %} {% if category %} {{category.name }} {% else %} Products {% endif %}{% endblock%}
+
+{% block body %}
+
+{% load static %}
+
+{% load i18n %}
+
+{% load catalog_tags %}
+
+<!--left side bar-->
+
+<div class="container">
+    <div class="col-md-12" style="overflow-x: scroll;">
+       <h1 style="text-align:center;font-family:Palatino Linotype, Book Antiqua, Palatino, serif;">Bid Items</h1>
+       <p style="text-align:center;color:black; font-weight:bold">{{today}} <span style="font-weight:bold;text-align:center;font-family:Palatino Linotype, Book Antiqua, Palatino, serif;color:#0e4790;" id="time"></span></p>
+       <script>
+            (function () {
+        function checkTime(i) {
+        return (i < 10) ? "0" + i : i;
+        }
+
+        function startTime() {
+        var today = new Date(),
+        h = checkTime(today.getHours()),
+        m = checkTime(today.getMinutes()),
+        s = checkTime(today.getSeconds());
+        document.getElementById('time').innerHTML = h + ":" + m + ":" + s;
+        t = setTimeout(function () {
+        startTime()
+        }, 500);
+        }
+        startTime();
+        })();
+       </script>
+       {% for bid in bidItems %}
+        <div class="panel panel-default col-md-3">
+            <a>
+                <div class="panel-body img">
+                     <img src="{{bid.image.url}}" height="320px" width="320px" class="img-responsive zoom">
+                </div>
+            </a>
+            <hr>
+            <div class="panel-header">
+                <h4 class="det"> {{bid.name}}</h4>
+            </div>
+            <div class="panel-header">
+              <p style="font-family:Palatino Linotype, Book Antiqua, Palatino, serif;">Minimum bidding price <span style="color:green">{{bid.minimum_price}}</span></p>
+            </div>
+            <div class="panel-header">
+                <p style="font-style: italic; color:grey;font-size:12px; font-weight:bold">Bidding ends on <span style="color: black; font-weight: bold">{{bid.end_date}}</span></p>
+            </div>
+            {% if now > bid.end_date %}
+
+            {% if bid.available %}
+            <div class="panel-header">
+                <a href="{% url 'catalog:confirm-winner' bid.id %}" class="btn btn-success" style="margin:auto; display:block">Confirm Winner</a>
+            </div>
+            {% else %}
+            <div class="panel-header">
+                <button class="btn btn-success" style="margin:auto; display:block">This Bid has been won</button>
+            </div>
+            {% endif %}
+
+            {% else %}
+            <div class="panel-header">
+              <a href="{{bid.get_absolute_url}}" class="btn btn-success" style="margin:auto; display:block">Bid Now</a>
+            </div>
+            {% endif %}
+
+        </div>
+      {% empty %}
+      <p class="det" style="font-style:italic;">{% trans 'There are no items to bid' %}</p>
+      {%endfor%}
+    </div>
+</div>
+
+{% include 'catalog/pagination.html' with page=products %}
+
+<div class="container">
+         <div class="jumbotron col-md-12 detail">
+             <div class="row">
+                 <div class="col-md-3" style="text-align:left">
+                     <h5 class="top">{% trans 'TOP CATEGORIES' %}</h5>
+                     <a href="" class="blak">{% trans 'Clothing' %}</a><br>
+                     <a href="" class="blak">{% trans 'Electronics' %}</a><br>
+                     <a href="" class="blak">{% trans 'Furniture' %}</a><br>
+                     <a href="" class="blak">{% trans 'Others' %}</a><br>
+                     <br>
+                     <a href="https://www.facebook.com">
+                         <img src="{% static 'catalog/img/facebook.png' %}">
+                     </a>
+                 </div>
+                <div class="col-md-3" style="text-align:left">
+                   <h5 class="top">{% trans 'HELP' %}</h5>
+                   <a href="{% url 'catalog:delivery' %}" class="blak">{% trans 'Delivery' %}</a><br>
+                   <a href="{% url 'catalog:returns' %}" class="blak">{% trans 'Returns' %}</a><br>
+                   <a href="{% url 'catalog:payment' %}" class="blak">{% trans 'Secure Payments' %}</a><br>
+                   <a href="{% url 'catalog:contact' %}" class="blak">{% trans 'Contact Us' %}</a><br>
+                   <br>
+                    <a href="https://www.twitter.com">
+                        <img src="{% static 'catalog/img/twitter.png' %}">
+                    </a>
+                </div>
+                <div class="col-md-3" style="text-align:left">
+                    <h5 class="top">{% trans 'ABOUT US' %}</h5>
+                    <a href="{% url 'catalog:careers' %}" class="blak">{% trans 'Careers' %}</a><br>
+                    <a href="{% url 'catalog:conditions' %}" class="blak">{% trans 'Terms & Conditions of Sales' %}</a><br>
+                    <a href="{% url 'catalog:privacy' %}" class="blak">{% trans 'Privacy Policy' %}</a><br>
+                    <a href="{% url 'catalog:responsibility' %}" class="blak">{% trans 'Responsibility' %}</a><br>
+                    <br>
+                    <a href="https://www.gmail.com">
+                        <img src="{% static 'catalog/img/google.png' %}">
+                    </a>
+                </div>
+                <div class="col-md-3" style="text-align:left">
+                    <h5 class="top">{% trans 'FEEDBACK' %}</h5>
+                    <a href="{% url 'catalog:feedback'%}" class="blak">{% trans 'Leave a feedback' %}</a><br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <a href="https://www.linkedin.com">
+                        <img src="{% static 'catalog/img/linked.png' %}">
+                    </a>
+                </div>
+             </div>
+         </div>
+</div>
+
+{% endblock %}
