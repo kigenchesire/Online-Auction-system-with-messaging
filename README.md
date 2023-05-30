@@ -11,4 +11,4 @@ It has incorporated services such as SMS messaging and online payments
 <h2>Functionalities</h2>
 1. Ability to send notification messages to bidders after conclusion of a sale <br>
 2. Ability to incorparate and deduct money from credit card<br>
-3. Highesest bidder wins the bid
+3. Highest bidder wins the bid
