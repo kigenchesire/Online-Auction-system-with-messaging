@@ -8,7 +8,7 @@ It has incorporated services such as SMS messaging and online payments
 4.  CSS
 5.  Javascript
 <br>
-#Functionalities
+# Functionalities
 1. Ability to send notification messages to bidders after conclusion of a sale
 2. Ability to incorparate and deduct money from credit card
 3. Highesest bidder wins the bid
