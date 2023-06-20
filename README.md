@@ -1,5 +1,5 @@
-# Online-Auction-system-with-messaging
-A website which enables Auctioners to post the items, the higest bidder get the item.
+# Online Auction system with messaging
+A website that enables Auctioneers to post the items, the highest bidder gets the item.
 It has incorporated services such as SMS messaging and online payments
 <h2> Languages used </h2>
 1.  Django <be>
@@ -9,6 +9,6 @@ It has incorporated services such as SMS messaging and online payments
 5.  Javascript <br>
 <br>
 <h2>Functionalities</h2>
-1. Ability to send notification messages to bidders after conclusion of a sale <br>
-2. Ability to incorparate and deduct money from credit card<br>
+1. Ability to send notification messages to bidders after the conclusion of a sale <br>
+2. Ability to incorporate and deduct money from credit card<br>
 3. Highest bidder wins the bid
